@@ -1,0 +1,31 @@
+# ===================================================================
+# External production configuration for bc-dashboard.
+#
+# This file lives OUTSIDE the jar (in ./config/ next to it) and is
+# picked up automatically by Spring Boot, overriding the
+# application-prod.yml bundled in the jar. Keep this file out of git
+# (it's already excluded via /config/ in .gitignore).
+#
+# Run with:
+#   java -jar bc-dashboard-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+#java -jar bc-dashboard1.jar --spring.profiles.active=prod --spring.config.additional-location=file:./
+# from the directory that contains this config/ folder.
+# ===================================================================
+
+spring:
+  application:
+    name: bc-dashboard
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: system
+    password: test
+
+jhipster:
+  security:
+    authentication:
+      jwt:
+        base64-secret: E/X92JEQX+f6aHXsO8AhrD1aYNNpGrwoppvwkaMZBAxS3MGIzpCsggdasH1DELzyBF1kBmjQS2dIT3q86+qLl7E1UuvsxjcEfNHPid+wE+EUf3e3GtZXsr8NabG+u7U0
+  mail:
+    base-url: http://localhost:8080
+server:
+  port: 8082
