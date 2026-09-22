@@ -1,0 +1,7 @@
+"Skill","What it does","Install"
+"copilot-pr-autopilot","Drives a PR through repeated rounds of Copilot code review — auto-triages every finding (fix / decline / escalate), dispatches fix sub-agents, commits per iteration, re-triggers until clean","gh skills install github/awesome-copilot copilot-pr-autopilot"
+"conventional-commit","Generates a Conventional Commit message from git diff and runs git commit","gh skills install github/awesome-copilot conventional-commit"
+"git-commit","Similar — commit with conventional message + best practices (one logical change, imperative mood, issue refs)","gh skills install github/awesome-copilot git-commit"
+"commit-message-storyteller","More narrative commit messages with context","gh skills install github/awesome-copilot commit-message-storyteller"
+"api-breaking-change-detector","Compares OpenAPI specs between branches, flags breaking changes","gh skills install github/awesome-copilot api-breaking-change-detector"
+"code-tour","Generates a guided walkthrough of unfamiliar code","gh skills install github/awesome-copilot code-tour"
