@@ -1,3 +1,19 @@
 /skills reload   
 /branch-and-push   
 Create a branch for the login feature and push my changes   
+
+---
+name: branch-and-push
+description: Create a branch, commit changes, and push to origin.
+argument-hint: '<branch-name> "<commit message>"'
+---
+
+## Workflow
+1. Create and checkout branch: `git checkout -b <branch-name>`
+2. Stage all changes: `git add -A`
+3. Commit with the provided message: `git commit -m "<commit message>"`
+4. Push: `git push -u origin <branch-name>`   
+
+/branch-and-push feature/login "feat: add login page"   
+
+
