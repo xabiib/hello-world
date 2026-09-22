@@ -1,6 +1,26 @@
 /skills reload   
 /branch-and-push   
+Create a branch for the login feature and push my changes  
+
+mkdir -p .github/skills/branch-and-push
+# then put your content in:
+.github/skills/branch-and-push/SKILL.md   
+
+/skills reload   --in vs code
+/branch-and-push   
 Create a branch for the login feature and push my changes   
+copilot   
+/branch-and-push   
+or just type the natural-language prompt. If you added the skill mid-session, run /skills reload first
+
+# When creating a PR:
+gh pr create --reviewer @copilot
+
+# On an existing PR:
+gh pr edit 42 --add-reviewer @copilot   
+You can also enable auto-review via repo rulesets so every PR gets reviewed automatically.  As of last week (Sep 18, 2026), it now includes an overview summary comment with a breakdown of findings, and auto-resolves its own comments when addressed
+
+Skills from github/awesome-copilot -- check csv file
 
 ---
 name: branch-and-push
