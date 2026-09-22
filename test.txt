@@ -13,6 +13,9 @@ copilot
 /branch-and-push   
 or just type the natural-language prompt. If you added the skill mid-session, run /skills reload first
 
+
+Built-in (no skill needed)
+Copilot Code Review is a native GitHub feature — not a skill.  You just add @copilot as a reviewer:
 # When creating a PR:
 gh pr create --reviewer @copilot
 
@@ -35,5 +38,11 @@ argument-hint: '<branch-name> "<commit message>"'
 4. Push: `git push -u origin <branch-name>`   
 
 /branch-and-push feature/login "feat: add login page"   
+
+--------------
+branch-and-push  →  create-pr  →  (Copilot auto-review)  →  review-summary  →  copilot-pr-autopilot   
+branch-and-push  →  create-pr  →  (Copilot auto-review)  →  review-summary  →  copilot-pr-autopilot   
+
+PR stands for Pull Request.  It's a mechanism on GitHub for proposing that code changes from one branch (usually a feature branch) be merged into another (typically main or master). A PR lets other developers review, discuss, and approve the changes before they're integrated into the main codebase.  The typical workflow is: create a branch → make commits → push → open a PR → review → merge.
 
 
