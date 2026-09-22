@@ -10,3 +10,9 @@
 "Structure","Single markdown file","A folder that can bundle scripts, templates, reference docs alongside SKILL.md"
 "Portability","Copilot-specific","Follows the open Agent Skills spec — works across Copilot, Claude Code, etc."
 "Use case","Reusable one-shot task","Multi-step workflow / runbook"
+
+"","git","gh"
+"What it is","Version control system","GitHub platform client"
+"Talks to","Your local repo + any remote (GitLab, Bitbucket, etc.)","GitHub's API specifically"
+"Manages","Commits, branches, merges, history, push/pull","PRs, issues, releases, Actions, repos, API calls"
+"Examples","git commit, git branch, git push","gh pr create, gh issue list, gh run view"
