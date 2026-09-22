@@ -5,3 +5,8 @@
 "commit-message-storyteller","More narrative commit messages with context","gh skills install github/awesome-copilot commit-message-storyteller"
 "api-breaking-change-detector","Compares OpenAPI specs between branches, flags breaking changes","gh skills install github/awesome-copilot api-breaking-change-detector"
 "code-tour","Generates a guided walkthrough of unfamiliar code","gh skills install github/awesome-copilot code-tour"
+"","Prompt (*.prompt.md)","Skill (SKILL.md in a folder)"
+"Discovery","Manual only — you must type /name","Auto-discovered by Copilot based on task + description, and invokable via /name"
+"Structure","Single markdown file","A folder that can bundle scripts, templates, reference docs alongside SKILL.md"
+"Portability","Copilot-specific","Follows the open Agent Skills spec — works across Copilot, Claude Code, etc."
+"Use case","Reusable one-shot task","Multi-step workflow / runbook"
