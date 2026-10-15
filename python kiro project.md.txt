@@ -1,0 +1,137 @@
+## Consolidated Prompt
+
+Put `schema.sql` **in your project folder** (e.g., `data/schema.sql`) rather than pasting it inline — Kiro can read files from the project directory. Then use this single prompt:
+
+```
+Project: [Your App Name] — a REST API for [one-line purpose].
+
+I have an existing SQLite database at ./data/yourapp.db.
+Its schema is in ./data/schema.sql (already extracted, do NOT regenerate it).
+
+Tech stack:
+- Python 3.12+, Flask (application factory pattern)
+- Flask-SQLAlchemy, Flask-Migrate
+- SQLite (existing file — do NOT create or alter tables)
+- Blueprints for route grouping
+- pytest for testing
+
+Requirements:
+1. Generate db.Model classes matching the EXISTING schema in schema.sql
+   (use sqlacodegen output as reference if provided in models_generated.py)
+2. Expose CRUD endpoints for each table:
+   - GET    /api/[resource]        → list (with pagination)
+   - GET    /api/[resource]/<id>   → single item
+   - POST   /api/[resource]        → create
+   - PUT    /api/[resource]/<id>   → update
+   - DELETE /api/[resource]/<id>   → delete
+3. SQLALCHEMY_DATABASE_URI points to the existing ./data/yourapp.db
+4. Do NOT call db.create_all() — tables already exist
+5. Use environment-based config (dev/test/prod)
+
+Constraints:
+- Application factory pattern (create_app in app/__init__.py)
+- No external DB server
+- Input validation on POST/PUT (use Pydantic or marshmallow)
+- Proper error handling (404, 400, 409)
+```
+
+## Even Better: Pre-Generate the Models First
+
+Instead of asking Kiro to infer models from the schema text, give it the **already-generated** models so it doesn't hallucinate column types:
+
+```bash
+# Step 1: Dump schema
+sqlite3 yourapp.db .schema > data/schema.sql
+
+# Step 2: Generate model code
+pip install sqlacodegen
+sqlacodegen sqlite:///yourapp.db > data/models_generated.py
+
+# Step 3: Drop both into your project
+```
+
+Then add one line to the prompt:
+
+```
+Reference models (already generated from the DB): ./data/models_generated.py
+Use these as the source of truth for column types and relationships.
+```
+
+## File Layout Before You Prompt Kiro
+
+```
+your-project/
+├── data/
+│   ├── yourapp.db          ← your existing database
+│   ├── schema.sql          ← .schema dump
+│   └── models_generated.py ← sqlacodegen output
+├── .kiro/
+│   └── steering/
+│       └── tech.md         ← your persistent stack config
+└── (Kiro will generate the rest)
+```
+
+## Why This Works Better Than Pasting Inline
+
+| Approach | Problem |
+|----------|---------|
+| Paste schema in prompt | Gets lost in long conversations; Kiro may truncate |
+| Reference file by path | Kiro reads it fresh each time; you can update it without re-prompting |
+| Pre-generate models | Removes ambiguity — Kiro copies column types instead of guessing |
+
+## After Kiro Generates `requirements.md`
+
+Review it and check:
+- Each table has a corresponding user story
+- EARS criteria mention the **existing** DB (not "create a database")
+- The `design.md` references `./data/yourapp.db` in the config
+- `tasks.md` does NOT include a "create database" or "run migrations to create tables" step
+
+If it does, tell Kiro: *"Remove all tasks related to table creation. The database already exists."*
+
+---------
+What Code Kiro Generates
+Based on your prompt, Kiro generates this structure (≈ Spring Boot project layout):
+
+your-project/
+├── app/
+│   ├── __init__.py          ← create_app() (≈ @SpringBootApplication)
+│   ├── config.py            ← dev/test/prod config classes
+│   ├── extensions.py        ← db = SQLAlchemy(), migrate = Migrate()
+│   ├── models.py            ← db.Model classes (from your existing schema)
+│   ├── users/
+│   │   ├── __init__.py
+│   │   └── routes.py        ← Blueprint with @bp.route(...) (≈ @RestController)
+│   ├── items/
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   └── ...
+├── data/
+│   └── yourapp.db           ← your existing SQLite file
+├── wsgi.py                  ← entry point (≈ SpringApplication.run())
+├── requirements.txt         ← flask, flask-sqlalchemy, gunicorn, etc.
+├── .env                     ← env vars (SECRET_KEY, DB path)
+└── tests/
+    └── test_api.py   
+
+It is backend only. No HTML, no Angular, no UI. It generates JSON REST endpoints like:
+GET    /api/items          → [{"id":1, "name":"...", ...}]
+GET    /api/items/1        → {"id":1, "name":"..."}
+POST   /api/items          → creates, returns 201
+PUT    /api/items/1        → updates, returns 200
+DELETE /api/items/1        → returns 204   
+
+How to Run
+Development (local, on your machine)
+
+# 1. Create virtual environment
+python3 -m venv venv
+source venv/bin/activate        # Linux/macOS
+# venv\Scripts\activate         # Windows
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Run
+python wsgi.py
+# → http://localhost:5000/api/items   
